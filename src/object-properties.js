@@ -8,7 +8,6 @@ const properties = {
   props: {
     assistantId: '',
     useDialog: false,
-    icon: 'Chat',
   },
 };
 
