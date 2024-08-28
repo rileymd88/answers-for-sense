@@ -11,4 +11,4 @@ This extension allows you to embed a Qlik Answers assistant in your Qlik Sense a
 
 ## Demo
 
-[Watch the demo video](https://raw.githubusercontent.com/rileymd88/answers-for-sense/main/imgs/Intro.mp4)
+![Demo](./imgs/Intro.gif)
