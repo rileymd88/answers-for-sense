@@ -10,6 +10,6 @@ This extension allows you to embed a Qlik Answers assistant in your Qlik Sense a
    ![Content Security Policy](./imgs/CSP.png)
 
 ## Demo
-   <video src="./imgs/Intro.mp4" controls>
-     Your browser does not support the video tag.
-   </video>
+<video src="https://raw.githubusercontent.com/rileymd88/answers-for-sense/main/imgs/Intro.mp4" controls>
+  Your browser does not support the video tag.
+</video>
