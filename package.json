@@ -1,12 +1,9 @@
 {
   "name": "answers-for-sense",
   "version": "0.1.0",
-  "description": "",
+  "description": "This extension allows you to embed a Qlik Answers assistant in your Qlik Sense app.",
   "license": "MIT",
-  "author": {
-    "name": "Riley MacDonald",
-    "email": "riley.macdonald@gmail.com"
-  },
+  "author": "Riley MacDonald",
   "keywords": [
     "qlik",
     "nebula",
