@@ -2,7 +2,6 @@ import { useElement, useEffect, useLayout, useInteractionState } from '@nebula.j
 import properties from './object-properties';
 import data from './data';
 import ext from './ext';
-import { webIntegrationId } from './config';
 
 export default function supernova() {
   return {
@@ -54,7 +53,6 @@ export default function supernova() {
             script.type = 'application/javascript';
             script.src = scriptUrl;
             script.dataset.host = `https://${window.location.host}`;
-            script.dataset.webIntegrationId = webIntegrationId;
             script.dataset.crossSiteCookies = "true";
             document.body.appendChild(script);
           }

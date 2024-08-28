@@ -1,5 +1,3 @@
-import { iconNames } from "./svgs/names";
-
 export default function ext() {
   const getAssistants = () => {
     return new Promise((resolve, reject) => {
@@ -40,45 +38,6 @@ export default function ext() {
     },
     defaultValue: "",
   };
-
-  const icon = {
-    component: "expression-with-dropdown",
-    dropdownOnly: false,
-    expressionType: "StringExpression",
-    translation: "Icon",
-    ref: "props.icon",
-    options: () => {
-      return iconNames.map((name) => ({
-        label: name,
-        value: name,
-      }));
-    },
-    defaultValue: "Chat",
-  };
-
-  const iconSize = {
-    component: "expression-with-dropdown",
-    dropdownOnly: false,
-    expressionType: "StringExpression",
-    translation: "Icon Size",
-    ref: "props.iconSize",
-    options: [
-      {
-        label: "small",
-        value: "Small",
-      },
-      {
-        label: "medium",
-        value: "Medium",
-      },
-      {
-        label: "large",
-        value: "Large",
-      },
-    ],
-    defaultValue: "medium",
-  };
-
 
   const settings = {
     component: "expandable-items",
