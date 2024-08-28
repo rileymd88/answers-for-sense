@@ -39,6 +39,12 @@ export default function ext() {
     defaultValue: "",
   };
 
+  const assistantHelpText = {
+    component: "text",
+    translation: "When using a formula to define the assistant, you need to ensure you provide a valid assistant ID.",
+    ref: "props.assistantHelpText",
+  };
+
   const settings = {
     component: "expandable-items",
     translation: "Common.Appearance",
@@ -108,6 +114,7 @@ export default function ext() {
         component: "items",
         items: {
           assistantId,
+          assistantHelpText,
           dialog,
         },
       }
