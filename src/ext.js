@@ -1,30 +1,38 @@
 export default function ext() {
-  const getAssistants = () => {
-    return new Promise((resolve, reject) => {
-      const headers = {
-        'Content-Type': 'application/json',
-      };
-      const options = {
-        method: 'GET',
-        headers: headers,
-      };
-      fetch('../api/v1/assistants', options)
-        .then(response => {
-          if (response.ok && response.status === 200) {
-            return response.json();
-          }
-          throw new Error('Failed to fetch assistants');
-        })
-        .then(assistants => {
-          resolve(assistants.data.map((assistant) => ({
+  const getAssistants = async () => {
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    const options = {
+      method: 'GET',
+      headers: headers,
+    };
+    let allAssistants = [];
+    const fetchPage = async (url) => {
+      try {
+        const response = await fetch(url, options);
+        if (response.ok && response.status === 200) {
+          const data = await response.json();
+          allAssistants = allAssistants.concat(data.data.map((assistant) => ({
             label: assistant.name,
             value: assistant.id,
           })));
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
+          if (data.links.next && data.links.next.href) {
+            await fetchPage(data.links.next.href);
+          }
+        } else {
+          throw new Error('Failed to fetch assistants');
+        }
+      } catch (error) {
+        throw error;
+      }
+    };
+    try {
+      await fetchPage('../api/v1/assistants');
+      return allAssistants;
+    } catch (error) {
+      throw error;
+    }
   };
 
   const assistantId = {

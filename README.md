@@ -12,3 +12,14 @@ This extension allows you to embed a Qlik Answers assistant in your Qlik Sense a
 ## Demo
 
 ![Demo](./imgs/Intro.gif)
+
+## Changelog
+### v0.1.1
+- Assistant dropdown will now be populated with all assistants in the Qlik Answers instance (before it was limited to 20)
+
+### v0.1.0
+- First release
+- Embed a Qlik Answers assistant in your Qlik Sense app
+- Select the assistant from a dropdown or use a formula to provide the assistant ID
+- Open the assistant in a dialog
+- Background styling
