@@ -8,6 +8,7 @@ const properties = {
   props: {
     assistantId: '',
     useDialog: false,
+    theme: 'qlik-light',
   },
 };
 

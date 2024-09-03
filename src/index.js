@@ -127,7 +127,7 @@ export default function supernova() {
                   <qlik-embed
                     ui="ai/assistant"
                     assistant-id="${layout.props.assistantId}"
-                    appearance="qlik-light"
+                    appearance="${layout.props.theme}"
                   ></qlik-embed>
                 </div>
               </dialog>
@@ -161,7 +161,7 @@ export default function supernova() {
               <qlik-embed
                 ui="ai/assistant"
                 assistant-id="${layout.props.assistantId}"
-                appearance="qlik-light"
+                appearance="${layout.props.theme}"
               ></qlik-embed>
               <div class="edit-mode-overlay" style="display: ${editMode ? 'block' : 'none'};"></div>
             `;
@@ -174,7 +174,7 @@ export default function supernova() {
             </div>
           `;
         }
-      }, [layout.props.useDialog, layout.props.assistantId, editMode]);
+      }, [layout.props.useDialog, layout.props.assistantId, editMode, layout.props.theme]);
     },
     ext: ext(),
   };

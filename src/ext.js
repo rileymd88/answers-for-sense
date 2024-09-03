@@ -53,6 +53,19 @@ export default function ext() {
     ref: "props.assistantHelpText",
   };
 
+  const theme = {
+    label: "Theme",
+    component: "dropdown",
+    dropdownOnly: true,
+    type: "string",
+    ref: "props.theme",
+    defaultValue: "left",
+    options: [
+      { value: "qlik-light", label: "Light" },
+      { value: "qlik-dark", label: "Dark" },
+    ],
+  };
+
   const settings = {
     component: "expandable-items",
     translation: "Common.Appearance",
@@ -124,6 +137,7 @@ export default function ext() {
           assistantId,
           assistantHelpText,
           dialog,
+          theme,
         },
       }
     },
