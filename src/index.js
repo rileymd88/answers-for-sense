@@ -69,6 +69,7 @@ export default function supernova() {
               </div>
             `;
           } else if (layout.props.useDialog) {
+            const isDarkTheme = layout.props.theme !== 'qlik-light';
             element.innerHTML = `
               <style>
                 #answers-for-sense-chat-icon {
@@ -92,6 +93,8 @@ export default function supernova() {
                   left: 50%;
                   transform: translate(-50%, -50%);
                   margin: 0;
+                  background-color: ${isDarkTheme ? '#333' : '#fff'};
+                  color: ${isDarkTheme ? '#fff' : '#333'};
                 }
                 #answers-for-sense-chat-dialog::backdrop {
                   background-color: rgba(0, 0, 0, 0.5);
@@ -102,7 +105,7 @@ export default function supernova() {
                   right: 10px;
                   width: 40px;
                   height: 40px;
-                  background-color: #f0f0f0;
+                  background-color: ${isDarkTheme ? '#555' : '#f0f0f0'};
                   border: none;
                   border-radius: 50%;
                   font-size: 24px;
@@ -111,6 +114,7 @@ export default function supernova() {
                   align-items: center;
                   justify-content: center;
                   z-index: 1;
+                  color: ${isDarkTheme ? '#fff' : '#333'};
                 }
                 #answers-for-sense-dialog-content {
                   width: 100%;
