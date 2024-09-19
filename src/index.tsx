@@ -6,6 +6,7 @@ import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './components/App';
 import { Layout, UseOptions } from './types';
+import '@qlik/embed-web-components';
 
 export default function supernova() {
   return {
@@ -37,24 +38,9 @@ export default function supernova() {
       }, [element, layout, interactions, rect, options]);
 
       useEffect(() => {
-        const scriptId = 'qlik-embed-web-components-script';
-        const scriptUrl = 'https://cdn.jsdelivr.net/npm/@qlik/embed-web-components@1/dist/index.min.js';
-
-        const loadScript = () => {
-          const existingScript = document.getElementById(scriptId);
-          if (!existingScript) {
-            const script = document.createElement('script');
-            script.id = scriptId;
-            script.crossOrigin = 'anonymous';
-            script.type = 'application/javascript';
-            script.src = scriptUrl;
-            script.dataset.host = `https://${window.location.host}`;
-            script.dataset.crossSiteCookies = "true";
-            document.body.appendChild(script);
-          }
-        };
-
-        loadScript();
+        // Set the necessary attributes for the web components
+        document.body.setAttribute('data-host', `https://${window.location.host}`);
+        document.body.setAttribute('data-cross-site-cookies', 'true');
       }, []);
     },
     ext: ext(),

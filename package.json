@@ -51,6 +51,7 @@
     "@mui/material": "^6.1.0",
     "@qlik-trial/sprout": "^3.29.0",
     "@qlik/api": "^1.18.0",
+    "@qlik/embed-web-components": "^1.2.8",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/react": "^18.3.7",
     "@types/react-dom": "^18.3.0",
