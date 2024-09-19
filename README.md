@@ -8,7 +8,7 @@ This extension allows you to embed a Qlik Answers assistant in your Qlik Sense a
 
 ## Demo
 
-![Demo](./imgs/Intro.gif)
+![Demo](./imgs/Intro2.gif)
 
 ## CSS Documentation
 The table below lists the available class names and their respective descriptions to assist with CSS customization.
