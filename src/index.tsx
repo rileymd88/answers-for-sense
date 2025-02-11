@@ -8,7 +8,8 @@ import App from './components/App';
 import { Layout, UseOptions } from './types';
 import '@qlik/embed-web-components';
 
-export default function supernova() {
+export default function supernova(env: any) {
+  const { hostConfig } = env;
   return {
     qae: {
       properties,
@@ -38,9 +39,14 @@ export default function supernova() {
       }, [element, layout, interactions, rect, options]);
 
       useEffect(() => {
-        // Set the necessary attributes for the web components
-        document.body.setAttribute('data-host', `https://${window.location.host}`);
-        document.body.setAttribute('data-cross-site-cookies', 'true');
+        const script = document.createElement('script');
+        script.setAttribute('data-host', hostConfig.host);
+        script.setAttribute('data-cross-site-cookies', 'true');
+        document.head.appendChild(script);
+
+        return () => {
+          document.head.removeChild(script);
+        };
       }, []);
     },
     ext: ext(),

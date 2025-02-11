@@ -3,7 +3,7 @@
 This extension allows you to embed a Qlik Answers assistant in your Qlik Sense app.
 
 ## Installation
-1. Download the extension from here: https://github.com/rileymd88/answers-for-sense/releases/download/0.1.3/answers-for-sense-ext.zip
+1. Download the extension from here: https://github.com/rileymd88/answers-for-sense/releases/download/0.1.4/answers-for-sense-ext.zip
 2. Upload the extension to Qlik Cloud
 
 ## Demo
@@ -28,6 +28,8 @@ The table below lists the available class names and their respective description
 | `answers-for-sense-edit-overlay` | Overlay displayed in edit mode. |
 
 ## Changelog
+### v0.1.4
+- Bug fix for custom icons not rendering correctly in the Assistant dialog
 
 ### v0.1.3
 - Removed the need to add a content security policy to use the extension
