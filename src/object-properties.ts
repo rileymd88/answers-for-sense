@@ -7,6 +7,7 @@ const properties = {
   showDetails: false,
   props: {
     assistantId: '',
+    useNewAssistantUI: false,
     useDialog: false,
     theme: 'qlik-light',
     icon: 'ChatOutline',

@@ -71,7 +71,7 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
 
   const embedContent = (
     <qlik-embed
-      ui="ai/assistant"
+      ui={layout.props.useNewAssistantUI ? "private:universal-assistant/PaginatedParcel" : "ai/assistant"}
       assistant-id={assistantId}
       appearance={theme}
     />

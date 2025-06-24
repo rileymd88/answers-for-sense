@@ -626,6 +626,19 @@ export default function ext() {
     ],
   };
 
+  const useNewAssistantUI = {
+    component: "switch",
+    ref: "props.useNewAssistantUI",
+    translation: "Use new assistant UI",
+    defaultValue: false,
+    options: [
+      {
+        value: true,
+        translation: "properties.on",
+      },
+    ],
+  };
+
   const theme = {
     label: "Theme",
     component: "dropdown",
@@ -680,6 +693,13 @@ export default function ext() {
         translation: "Dialog",
         items: {
           dialog,
+        },
+      },
+      newAssistantUISection: {
+        component: "panel-section",
+        translation: "Beta features",
+        items: {
+          useNewAssistantUI,
         },
       },
       iconSection: {

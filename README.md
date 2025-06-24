@@ -28,6 +28,9 @@ The table below lists the available class names and their respective description
 | `answers-for-sense-edit-overlay` | Overlay displayed in edit mode. |
 
 ## Changelog
+### v0.1.5
+- Added option to use new Qlik Answers UI (only works on tenants where this has been enabled)
+
 ### v0.1.4
 - Bug fix for custom icons not rendering correctly in the Assistant dialog
 

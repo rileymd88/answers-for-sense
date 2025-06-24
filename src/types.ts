@@ -30,6 +30,7 @@ export interface Layout extends GenericObjectLayout {
   props: {
     assistantId: string;
     useDialog: boolean;
+    useNewAssistantUI: boolean;
     theme: "qlik-light" | "qlik-dark";
     icon?: string;
     iconSize?: number;
