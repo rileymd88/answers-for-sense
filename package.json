@@ -1,6 +1,6 @@
 {
   "name": "answers-for-sense",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "This extension allows you to embed a Qlik Answers assistant in your Qlik Sense app.",
   "license": "MIT",
   "author": "Riley MacDonald",
@@ -21,7 +21,7 @@
     "build": "nebula build --typescript",
     "lint": "eslint src",
     "start": "nebula serve",
-    "sense": "nebula build --typescript && nebula sense --meta src/meta.json --minify false --sourcemap true && cd .. && source ../extension_build/bin/activate && python3 build.py extension",
+    "sense": "nebula build --typescript && nebula sense --meta src/meta.json --minify false --sourcemap true && cd ../extension_build && source bin/activate && python3 build.py --type extension --extension-name answers-for-sense --tenant coe-emea.eu.qlikcloud.com",
     "test:e2e": "playwright test",
     "test:e2e:report": "playwright show-report test/integration/test-report"
   },

@@ -1,5 +1,5 @@
-import type { GenericObjectLayout} from '@qlik/api/qix';
-import { stardust } from "@nebula.js/stardust";
+import type { GenericObjectLayout } from '@qlik/api/qix';
+import { stardust } from '@nebula.js/stardust';
 
 export type Assistant = {
   id: string;
@@ -7,12 +7,13 @@ export type Assistant = {
 };
 
 export type UseOptions = {
-  direction: "ltr" | "rtl";
-}
+  direction: 'ltr' | 'rtl';
+};
 
 export type Color = {
-    color: string;
-  }
+  color: string;
+  index?: string;
+};
 
 export type Option = {
   label: string;
@@ -30,10 +31,21 @@ export interface Layout extends GenericObjectLayout {
   props: {
     assistantId: string;
     useDialog: boolean;
-    theme: "qlik-light" | "qlik-dark";
+    dialogMode?: 'dialog' | 'drawer';
+    drawerPosition?: 'left' | 'right';
+    draggable?: boolean;
+    resizable?: boolean;
+    theme: 'qlik-light' | 'qlik-dark';
     icon?: string;
     iconSize?: number;
     iconColor?: Color;
-    iconPosition?: "top-left" | "top-right" | "center-left" | "center-center" | "center-right" | "bottom-left" | "bottom-right";
+    iconPosition?:
+      | 'top-left'
+      | 'top-right'
+      | 'center-left'
+      | 'center-center'
+      | 'center-right'
+      | 'bottom-left'
+      | 'bottom-right';
   };
 }

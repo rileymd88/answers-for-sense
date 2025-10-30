@@ -8,6 +8,10 @@ const properties = {
   props: {
     assistantId: '',
     useDialog: false,
+    dialogMode: 'dialog',
+    drawerPosition: 'right',
+    draggable: false,
+    resizable: false,
     theme: 'qlik-light',
     icon: 'ChatOutline',
     iconSize: 80,

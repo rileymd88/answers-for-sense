@@ -650,6 +650,72 @@ export default function ext() {
     defaultValue: 80,
   }
 
+  const dialogMode = {
+    component: "dropdown",
+    dropdownOnly: true,
+    type: "string",
+    translation: "Dialog mode",
+    ref: "props.dialogMode",
+    options: () => [
+      { value: "dialog", label: "Dialog" },
+      { value: "drawer", label: "Drawer" },
+    ],
+    defaultValue: "dialog",
+    show: (layout: Layout) => layout.props.useDialog === true,
+  };
+
+  const drawerPosition = {
+    component: "dropdown",
+    dropdownOnly: true,
+    type: "string",
+    translation: "Drawer position",
+    ref: "props.drawerPosition",
+    options: () => [
+      { value: "left", label: "Left" },
+      { value: "right", label: "Right" },
+    ],
+    defaultValue: "right",
+    show: (layout: Layout) => layout.props.useDialog === true && (layout.props.dialogMode ?? "dialog") === "drawer",
+  };
+
+  const draggable = {
+    type: "boolean",
+    component: "switch",
+    ref: "props.draggable",
+    translation: "Draggable dialog",
+    defaultValue: false,
+    options: [
+      {
+        value: true,
+        translation: "properties.on",
+      },
+      {
+        value: false,
+        translation: "properties.off",
+      },
+    ],
+    show: (layout: Layout) => layout.props.useDialog === true && (layout.props.dialogMode ?? "dialog") === "dialog",
+  };
+
+  const resizable = {
+    type: "boolean",
+    component: "switch",
+    ref: "props.resizable",
+    translation: "Resizable dialog",
+    defaultValue: false,
+    options: [
+      {
+        value: true,
+        translation: "properties.on",
+      },
+      {
+        value: false,
+        translation: "properties.off",
+      },
+    ],
+    show: (layout: Layout) => layout.props.useDialog === true && (layout.props.dialogMode ?? "dialog") === "dialog",
+  };
+
   const iconColor = {
     component: "color-picker",
     type: "object",
@@ -680,6 +746,10 @@ export default function ext() {
         translation: "Dialog",
         items: {
           dialog,
+          dialogMode,
+          drawerPosition,
+          draggable,
+          resizable,
         },
       },
       iconSection: {
