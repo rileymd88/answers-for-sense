@@ -7,6 +7,7 @@ const properties = {
   showDetails: false,
   props: {
     assistantId: '',
+    legacyAssistant: true,
     useDialog: false,
     dialogMode: 'dialog',
     drawerPosition: 'right',

@@ -542,7 +542,7 @@ const icons: Option[] = [
 
 
 export default function ext() {
-  const getAssistants = async () => {
+  const getAssistants = async (legacyAssistant: boolean = true) => {
     const headers = {
       'Content-Type': 'application/json',
     };
@@ -556,10 +556,14 @@ export default function ext() {
         const response = await fetch(url, options);
         if (response.ok && response.status === 200) {
           const data = await response.json();
-          allAssistants = allAssistants.concat(data.data.map((assistant: Assistant) => ({
-            label: assistant.name,
-            value: assistant.id,
-          })));
+          allAssistants = allAssistants.concat(
+            data.data
+              .filter((assistant: Assistant) => assistant.legacy === legacyAssistant)
+              .map((assistant: Assistant) => ({
+                label: assistant.name,
+                value: assistant.id,
+              }))
+          );
           if (data.links.next && data.links.next.href) {
             await fetchPage(data.links.next.href);
           }
@@ -578,14 +582,42 @@ export default function ext() {
     }
   };
 
+  const getLegacyAssistantSetting = (data: any) => {
+    if (typeof data?.layout?.props?.legacyAssistant === 'boolean') {
+      return data.layout.props.legacyAssistant;
+    }
+    if (typeof data?.props?.legacyAssistant === 'boolean') {
+      return data.props.legacyAssistant;
+    }
+    return true;
+  };
+
+  const legacyAssistant = {
+    type: "boolean",
+    component: "switch",
+    ref: "props.legacyAssistant",
+    translation: "Legacy assistant",
+    defaultValue: true,
+    options: [
+      {
+        value: true,
+        translation: "properties.on",
+      },
+      {
+        value: false,
+        translation: "properties.off",
+      },
+    ],
+  };
+
   const assistantId = {
     component: "expression-with-dropdown",
     dropdownOnly: false,
     expressionType: "StringExpression",
     translation: "Assistant",
     ref: "props.assistantId",
-    options: () => {
-      return getAssistants();
+    options: (data: any) => {
+      return getAssistants(getLegacyAssistantSetting(data));
     },
     defaultValue: "",
   };
@@ -827,6 +859,7 @@ export default function ext() {
         label: "Assistant",
         component: "items",
         items: {
+          legacyAssistant,
           assistantId,
           assistantHelpText,
         },

@@ -4,6 +4,7 @@ import { stardust } from '@nebula.js/stardust';
 export type Assistant = {
   id: string;
   name: string;
+  legacy?: boolean;
 };
 
 export type UseOptions = {
@@ -30,6 +31,7 @@ export interface AppProps {
 export interface Layout extends GenericObjectLayout {
   props: {
     assistantId: string;
+    legacyAssistant?: boolean;
     useDialog: boolean;
     dialogMode?: 'dialog' | 'drawer';
     drawerPosition?: 'left' | 'right';

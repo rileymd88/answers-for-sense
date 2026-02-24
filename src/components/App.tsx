@@ -124,6 +124,7 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
 
   const {
     assistantId,
+    legacyAssistant = true,
     useDialog,
     theme,
     icon,
@@ -306,11 +307,12 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, [clampDrawerWidth]);
 
+  const assistantUi = legacyAssistant ? 'ai/assistant' : 'ai/agentic-assistant';
   const embedContent = useMemo(
     () => (
-      <qlik-embed ui="ai/assistant" assistant-id={assistantId} appearance={theme} />
+      <qlik-embed ui={assistantUi} assistant-id={assistantId} appearance={theme} />
     ),
-    [assistantId, theme]
+    [assistantId, assistantUi, theme]
   );
 
   if (assistantId === '') {
