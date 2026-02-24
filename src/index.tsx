@@ -1,4 +1,4 @@
-import { useElement, useEffect, useLayout, useInteractionState, useOptions, useRect } from '@nebula.js/stardust';
+import { useElement, useEffect, useLayout, useInteractionState, useOptions, useRect, useApp } from '@nebula.js/stardust';
 import properties from './object-properties';
 import data from './data';
 import ext from './ext';
@@ -21,6 +21,8 @@ export default function supernova(env: any) {
       const interactions = useInteractionState();
       const options = useOptions() as UseOptions;
       const rect = useRect();
+      const app = useApp();
+      const appId = app?.id;
 
       useEffect(() => {
         const root = createRoot(element);
@@ -30,13 +32,14 @@ export default function supernova(env: any) {
             layout={layout}
             options={options}
             rect={rect}
+            appId={appId}
           />
         );
 
         return () => {
           root.unmount();
         };
-      }, [element, layout, interactions, rect, options]);
+      }, [appId, element, interactions, layout, options, rect]);
 
       useEffect(() => {
         const script = document.createElement('script');

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AppProps } from '../types';
+import { AppProps, DialogSizePreset } from '../types';
 import { ThemeProvider } from '@mui/material/styles';
 import {
   Dialog,
@@ -117,7 +117,7 @@ const DraggablePaper: React.FC<PaperProps> = props => {
   );
 };
 
-const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
+const App: React.FC<AppProps> = ({ layout, interactions, options, rect, appId }) => {
   const [open, setOpen] = useState(false);
   const fullScreen = useMediaQuery('(max-width:600px)');
   const { baseTheme, dialogTheme } = muiSetup(options.direction, layout.props.theme === 'qlik-dark' ? 'dark' : 'light');
@@ -132,6 +132,7 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
     iconColor,
     iconPosition,
     dialogMode = 'dialog',
+    dialogSizePreset = 'standard',
     drawerPosition = 'right',
     draggable = false,
     resizable = false,
@@ -308,11 +309,88 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
   }, [clampDrawerWidth]);
 
   const assistantUi = legacyAssistant ? 'ai/assistant' : 'ai/agentic-assistant';
+  const assistantVariant = legacyAssistant ? undefined : 'dashboard';
+  const nonLegacyFullDrawerWidth = !legacyAssistant && dialogMode === 'drawer';
+  const nonLegacyAssistantWidthOverrides = useMemo(
+    () =>
+      legacyAssistant
+        ? undefined
+        : {
+            // Fallback for runtimes where `variant="dashboard"` is ignored.
+            '& qlik-embed [data-testid="universal-assistant-paginated-box"]': {
+              width: '100% !important',
+              maxWidth: 'none !important',
+              minWidth: '0 !important',
+              margin: '0 !important',
+            },
+            '& qlik-embed [id="universal-assistant-paginated-box"]': {
+              width: '100% !important',
+              maxWidth: 'none !important',
+              minWidth: '0 !important',
+              margin: '0 !important',
+            },
+            '& qlik-embed qmfe-embed-react': {
+              width: '100% !important',
+              maxWidth: 'none !important',
+            },
+            '& qlik-embed qmfe-root': {
+              width: '100% !important',
+              maxWidth: 'none !important',
+            },
+            '& qlik-embed > qmfe-root > div': {
+              width: '100% !important',
+              maxWidth: 'none !important',
+              alignItems: 'stretch !important',
+            },
+            '& qlik-embed > qmfe-root > div > div': {
+              width: '100% !important',
+              maxWidth: 'none !important',
+              minWidth: '0 !important',
+            },
+            '& qlik-embed [style*="min-height: 250px"][style*="width:"]': {
+              width: '100% !important',
+              maxWidth: 'none !important',
+              minWidth: '0 !important',
+            },
+            '& qlik-embed #ua-resize-container': {
+              width: '100% !important',
+              minWidth: '0 !important',
+              maxWidth: '100% !important',
+            },
+            '& qlik-embed #ua-main-container': {
+              width: '100% !important',
+              maxWidth: '100% !important',
+            },
+          },
+    [legacyAssistant]
+  );
+
+  const dialogMaxWidth = useMemo((): false | 'sm' | 'md' | 'lg' => {
+    const preset = (dialogSizePreset ?? 'standard') as DialogSizePreset;
+    switch (preset) {
+      case 'compact':
+        return 'sm';
+      case 'wide':
+        return 'lg';
+      case 'full':
+        return false;
+      case 'standard':
+      default:
+        return 'md';
+    }
+  }, [dialogSizePreset]);
+
   const embedContent = useMemo(
     () => (
-      <qlik-embed ui={assistantUi} assistant-id={assistantId} appearance={theme} />
+      <qlik-embed
+        ui={assistantUi}
+        variant={assistantVariant}
+        assistant-id={assistantId}
+        app-id={legacyAssistant ? undefined : appId}
+        appearance={theme}
+      />
     ),
-    [assistantId, assistantUi, theme]
+    [appId, assistantId, assistantUi, assistantVariant, legacyAssistant, theme]
   );
 
   if (assistantId === '') {
@@ -327,10 +405,29 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
     );
   }
 
+  if (!legacyAssistant && !appId) {
+    return (
+      <ThemeProvider theme={baseTheme}>
+        <Box display="flex" justifyContent="center" alignItems="center" height="100%" className="answers-for-sense-empty-state">
+          <Typography variant="body1" color="text.secondary">
+            App context is required for non-legacy assistants
+          </Typography>
+        </Box>
+      </ThemeProvider>
+    );
+  }
+
   if (!useDialog) {
     return (
       <ThemeProvider theme={baseTheme}>
-        <Box className="answers-for-sense-embed-container" sx={{ height: '100%', width: '100%' }}>
+        <Box
+          className="answers-for-sense-embed-container"
+          sx={{
+            height: '100%',
+            width: '100%',
+            ...nonLegacyAssistantWidthOverrides,
+          }}
+        >
           {embedContent}
         </Box>
       </ThemeProvider>
@@ -386,12 +483,12 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
               keepMounted
               PaperProps={{
                 sx: {
-                  width: drawerWidth,
-                  minWidth: MIN_DRAWER_WIDTH,
+                  width: nonLegacyFullDrawerWidth ? '100vw' : drawerWidth,
+                  minWidth: nonLegacyFullDrawerWidth ? '100vw' : MIN_DRAWER_WIDTH,
                   overflow: 'visible',
                   display: 'flex',
                   flexDirection: 'column',
-                  transition: isResizingDrawer ? 'none' : 'width 0.2s ease',
+                  transition: nonLegacyFullDrawerWidth || isResizingDrawer ? 'none' : 'width 0.2s ease',
                 },
               }}
             >
@@ -415,7 +512,7 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
                 </IconButton>
               </Box>
               <Box sx={{ flex: 1, position: 'relative', display: 'flex', flexDirection: 'column' }}>
-                {open && (
+                {open && !nonLegacyFullDrawerWidth && (
                   <Box
                     role="separator"
                     aria-orientation="vertical"
@@ -450,7 +547,12 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
                     }}
                   />
                 )}
-                <Box height="100%" overflow="auto" className="answers-for-sense-embed-container">
+                <Box
+                  height="100%"
+                  overflow="auto"
+                  className="answers-for-sense-embed-container"
+                  sx={nonLegacyAssistantWidthOverrides}
+                >
                   {embedContent}
                 </Box>
               </Box>
@@ -460,7 +562,7 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
               fullScreen={fullScreen}
               open={open}
               onClose={handleClose}
-              maxWidth="lg"
+              maxWidth={dialogMaxWidth}
               fullWidth
               aria-labelledby="assistant-dialog-title"
               PaperComponent={draggable ? DraggablePaper : Paper}
@@ -491,7 +593,12 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
                 </IconButton>
               </DialogTitle>
               <DialogContent className="answers-for-sense-dialog-content">
-                <Box height="100%" overflow="auto" className="answers-for-sense-embed-container">
+                <Box
+                  height="100%"
+                  overflow="auto"
+                  className="answers-for-sense-embed-container"
+                  sx={nonLegacyAssistantWidthOverrides}
+                >
                   {embedContent}
                 </Box>
               </DialogContent>

@@ -696,6 +696,22 @@ export default function ext() {
     show: (layout: Layout) => layout.props.useDialog === true,
   };
 
+  const dialogSizePreset = {
+    component: "dropdown",
+    dropdownOnly: true,
+    type: "string",
+    translation: "Dialog size",
+    ref: "props.dialogSizePreset",
+    options: () => [
+      { value: "compact", label: "Compact" },
+      { value: "standard", label: "Standard" },
+      { value: "wide", label: "Wide" },
+      { value: "full", label: "Full" },
+    ],
+    defaultValue: "standard",
+    show: (layout: Layout) => layout.props.useDialog === true && (layout.props.dialogMode ?? "dialog") === "dialog",
+  };
+
   const drawerPosition = {
     component: "dropdown",
     dropdownOnly: true,
@@ -779,6 +795,7 @@ export default function ext() {
         items: {
           dialog,
           dialogMode,
+          dialogSizePreset,
           drawerPosition,
           draggable,
           resizable,

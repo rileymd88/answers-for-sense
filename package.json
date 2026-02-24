@@ -21,7 +21,7 @@
     "build": "nebula build --typescript",
     "lint": "eslint src",
     "start": "nebula serve",
-    "sense": "nebula build --typescript && nebula sense --meta src/meta.json --minify false --sourcemap true && cd ../extension_build && source bin/activate && python3 build.py --type extension --extension-name answers-for-sense --tenant coe-emea.eu.qlikcloud.com",
+    "sense": "nebula build --typescript && nebula sense --meta src/meta.json --minify false --sourcemap true && python3 ../extension_build/build.py --type extension --extension-name answers-for-sense --tenant coe-emea.eu.qlikcloud.com",
     "test:e2e": "playwright test",
     "test:e2e:report": "playwright show-report test/integration/test-report"
   },

@@ -10,6 +10,7 @@ const properties = {
     legacyAssistant: true,
     useDialog: false,
     dialogMode: 'dialog',
+    dialogSizePreset: 'standard',
     drawerPosition: 'right',
     draggable: false,
     resizable: false,

@@ -21,11 +21,14 @@ export type Option = {
   value: string;
 };
 
+export type DialogSizePreset = 'compact' | 'standard' | 'wide' | 'full';
+
 export interface AppProps {
   layout: Layout;
   interactions: stardust.Interactions;
   options: UseOptions;
   rect: stardust.Rect;
+  appId?: string;
 }
 
 export interface Layout extends GenericObjectLayout {
@@ -34,6 +37,7 @@ export interface Layout extends GenericObjectLayout {
     legacyAssistant?: boolean;
     useDialog: boolean;
     dialogMode?: 'dialog' | 'drawer';
+    dialogSizePreset?: DialogSizePreset;
     drawerPosition?: 'left' | 'right';
     draggable?: boolean;
     resizable?: boolean;
