@@ -28,13 +28,13 @@ export interface AppProps {
   interactions: stardust.Interactions;
   options: UseOptions;
   rect: stardust.Rect;
-  appId?: string;
 }
 
 export interface Layout extends GenericObjectLayout {
   props: {
     assistantId: string;
     legacyAssistant?: boolean;
+    fullScreenMode?: boolean;
     useDialog: boolean;
     dialogMode?: 'dialog' | 'drawer';
     dialogSizePreset?: DialogSizePreset;

@@ -622,6 +622,25 @@ export default function ext() {
     defaultValue: "",
   };
 
+  const fullScreenMode = {
+    type: "boolean",
+    component: "switch",
+    ref: "props.fullScreenMode",
+    translation: "Full screen mode",
+    defaultValue: true,
+    options: [
+      {
+        value: true,
+        translation: "properties.on",
+      },
+      {
+        value: false,
+        translation: "properties.off",
+      },
+    ],
+    show: (layout: Layout) => layout.props.legacyAssistant === false,
+  };
+
   const icon = {
     component: "dropdown",
     dropdownOnly: true,
@@ -877,6 +896,7 @@ export default function ext() {
         component: "items",
         items: {
           legacyAssistant,
+          fullScreenMode,
           assistantId,
           assistantHelpText,
         },

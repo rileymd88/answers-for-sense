@@ -8,6 +8,7 @@ const properties = {
   props: {
     assistantId: '',
     legacyAssistant: true,
+    fullScreenMode: true,
     useDialog: false,
     dialogMode: 'dialog',
     dialogSizePreset: 'standard',

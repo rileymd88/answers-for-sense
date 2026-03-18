@@ -1,12 +1,14 @@
-import { useElement, useEffect, useLayout, useInteractionState, useOptions, useRect, useApp } from '@nebula.js/stardust';
+import { useElement, useEffect, useLayout, useInteractionState, useOptions, useRect } from '@nebula.js/stardust';
 import properties from './object-properties';
 import data from './data';
 import ext from './ext';
 import * as React from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, type Root } from 'react-dom/client';
 import App from './components/App';
 import { Layout, UseOptions } from './types';
 import '@qlik/embed-web-components';
+
+const rootsByElement = new WeakMap<Element, Root>();
 
 export default function supernova(env: any) {
   const { hostConfig } = env;
@@ -21,25 +23,33 @@ export default function supernova(env: any) {
       const interactions = useInteractionState();
       const options = useOptions() as UseOptions;
       const rect = useRect();
-      const app = useApp();
-      const appId = app?.id;
 
       useEffect(() => {
-        const root = createRoot(element);
+        let root = rootsByElement.get(element);
+        if (!root) {
+          root = createRoot(element);
+          rootsByElement.set(element, root);
+        }
+
         root.render(
           <App
             interactions={interactions}
             layout={layout}
             options={options}
             rect={rect}
-            appId={appId}
           />
         );
+      }, [element, interactions, layout, options, rect]);
 
+      useEffect(() => {
         return () => {
-          root.unmount();
+          const root = rootsByElement.get(element);
+          if (root) {
+            root.unmount();
+            rootsByElement.delete(element);
+          }
         };
-      }, [appId, element, interactions, layout, options, rect]);
+      }, [element]);
 
       useEffect(() => {
         const script = document.createElement('script');

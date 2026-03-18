@@ -117,14 +117,15 @@ const DraggablePaper: React.FC<PaperProps> = props => {
   );
 };
 
-const App: React.FC<AppProps> = ({ layout, interactions, options, rect, appId }) => {
+const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
   const [open, setOpen] = useState(false);
-  const fullScreen = useMediaQuery('(max-width:600px)');
+  const fullScreenDialog = useMediaQuery('(max-width:600px)');
   const { baseTheme, dialogTheme } = muiSetup(options.direction, layout.props.theme === 'qlik-dark' ? 'dark' : 'light');
 
   const {
     assistantId,
     legacyAssistant = true,
+    fullScreenMode = true,
     useDialog,
     theme,
     icon,
@@ -139,6 +140,7 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect, appId })
   } = layout.props;
 
   const isDarkMode = layout.props.theme === 'qlik-dark';
+  const useFullScreenMode = !legacyAssistant && fullScreenMode;
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -309,13 +311,12 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect, appId })
   }, [clampDrawerWidth]);
 
   const assistantUi = legacyAssistant ? 'ai/assistant' : 'ai/agentic-assistant';
-  const assistantVariant = legacyAssistant ? undefined : 'dashboard';
-  const nonLegacyFullDrawerWidth = !legacyAssistant && dialogMode === 'drawer';
+  const assistantVariant = useFullScreenMode ? 'dashboard' : undefined;
+  const nonLegacyFullDrawerWidth = useFullScreenMode && dialogMode === 'drawer';
   const nonLegacyAssistantWidthOverrides = useMemo(
     () =>
-      legacyAssistant
-        ? undefined
-        : {
+      useFullScreenMode
+        ? {
             // Fallback for runtimes where `variant="dashboard"` is ignored.
             '& qlik-embed [data-testid="universal-assistant-paginated-box"]': {
               width: '100% !important',
@@ -361,8 +362,9 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect, appId })
               width: '100% !important',
               maxWidth: '100% !important',
             },
-          },
-    [legacyAssistant]
+          }
+        : undefined,
+    [useFullScreenMode]
   );
 
   const dialogMaxWidth = useMemo((): false | 'sm' | 'md' | 'lg' => {
@@ -386,11 +388,10 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect, appId })
         ui={assistantUi}
         variant={assistantVariant}
         assistant-id={assistantId}
-        app-id={legacyAssistant ? undefined : appId}
         appearance={theme}
       />
     ),
-    [appId, assistantId, assistantUi, assistantVariant, legacyAssistant, theme]
+    [assistantId, assistantUi, assistantVariant, theme]
   );
 
   if (assistantId === '') {
@@ -399,18 +400,6 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect, appId })
         <Box display="flex" justifyContent="center" alignItems="center" height="100%" className="answers-for-sense-empty-state">
           <Typography variant="body1" color="text.secondary">
             Please select an Assistant
-          </Typography>
-        </Box>
-      </ThemeProvider>
-    );
-  }
-
-  if (!legacyAssistant && !appId) {
-    return (
-      <ThemeProvider theme={baseTheme}>
-        <Box display="flex" justifyContent="center" alignItems="center" height="100%" className="answers-for-sense-empty-state">
-          <Typography variant="body1" color="text.secondary">
-            App context is required for non-legacy assistants
           </Typography>
         </Box>
       </ThemeProvider>
@@ -559,7 +548,7 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect, appId })
             </Drawer>
           ) : (
             <Dialog
-              fullScreen={fullScreen}
+              fullScreen={fullScreenDialog}
               open={open}
               onClose={handleClose}
               maxWidth={dialogMaxWidth}
@@ -568,8 +557,8 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect, appId })
               PaperComponent={draggable ? DraggablePaper : Paper}
               PaperProps={{
                 sx: {
-                  height: fullScreen ? '100%' : '90vh',
-                  maxHeight: fullScreen ? '100%' : '90vh',
+                  height: fullScreenDialog ? '100%' : '90vh',
+                  maxHeight: fullScreenDialog ? '100%' : '90vh',
                   resize: resizable ? 'both' : 'none',
                   overflow: resizable ? 'auto' : 'hidden',
                   position: 'relative',
