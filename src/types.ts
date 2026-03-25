@@ -1,4 +1,5 @@
 import type { GenericObjectLayout } from '@qlik/api/qix';
+import type { HostConfig } from '@qlik/api/auth';
 import { stardust } from '@nebula.js/stardust';
 
 export type Assistant = {
@@ -28,6 +29,7 @@ export interface AppProps {
   interactions: stardust.Interactions;
   options: UseOptions;
   rect: stardust.Rect;
+  hostConfig?: HostConfig;
 }
 
 export interface Layout extends GenericObjectLayout {

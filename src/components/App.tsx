@@ -16,6 +16,7 @@ import {
 import muiSetup from '../components/mui-setup';
 import CloseIcon from '@qlik-trial/sprout/icons/react/Close';
 import * as Icons from '@qlik-trial/sprout/icons/react';
+import QlikEmbedAssistant from './QlikEmbedAssistant';
 
 const MIN_DRAWER_WIDTH = 320;
 const DEFAULT_DRAWER_WIDTH = 560;
@@ -117,7 +118,7 @@ const DraggablePaper: React.FC<PaperProps> = props => {
   );
 };
 
-const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
+const App: React.FC<AppProps> = ({ layout, interactions, options, rect, hostConfig }) => {
   const [open, setOpen] = useState(false);
   const fullScreenDialog = useMediaQuery('(max-width:600px)');
   const { baseTheme, dialogTheme } = muiSetup(options.direction, layout.props.theme === 'qlik-dark' ? 'dark' : 'light');
@@ -318,47 +319,47 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
       useFullScreenMode
         ? {
             // Fallback for runtimes where `variant="dashboard"` is ignored.
-            '& qlik-embed [data-testid="universal-assistant-paginated-box"]': {
+            '& .answers-for-sense-embed-root [data-testid="universal-assistant-paginated-box"]': {
               width: '100% !important',
               maxWidth: 'none !important',
               minWidth: '0 !important',
               margin: '0 !important',
             },
-            '& qlik-embed [id="universal-assistant-paginated-box"]': {
+            '& .answers-for-sense-embed-root [id="universal-assistant-paginated-box"]': {
               width: '100% !important',
               maxWidth: 'none !important',
               minWidth: '0 !important',
               margin: '0 !important',
             },
-            '& qlik-embed qmfe-embed-react': {
+            '& .answers-for-sense-embed-root qmfe-embed-react': {
               width: '100% !important',
               maxWidth: 'none !important',
             },
-            '& qlik-embed qmfe-root': {
+            '& .answers-for-sense-embed-root qmfe-root': {
               width: '100% !important',
               maxWidth: 'none !important',
             },
-            '& qlik-embed > qmfe-root > div': {
+            '& .answers-for-sense-embed-root > qmfe-root > div': {
               width: '100% !important',
               maxWidth: 'none !important',
               alignItems: 'stretch !important',
             },
-            '& qlik-embed > qmfe-root > div > div': {
+            '& .answers-for-sense-embed-root > qmfe-root > div > div': {
               width: '100% !important',
               maxWidth: 'none !important',
               minWidth: '0 !important',
             },
-            '& qlik-embed [style*="min-height: 250px"][style*="width:"]': {
+            '& .answers-for-sense-embed-root [style*="min-height: 250px"][style*="width:"]': {
               width: '100% !important',
               maxWidth: 'none !important',
               minWidth: '0 !important',
             },
-            '& qlik-embed #ua-resize-container': {
+            '& .answers-for-sense-embed-root #ua-resize-container': {
               width: '100% !important',
               minWidth: '0 !important',
               maxWidth: '100% !important',
             },
-            '& qlik-embed #ua-main-container': {
+            '& .answers-for-sense-embed-root #ua-main-container': {
               width: '100% !important',
               maxWidth: '100% !important',
             },
@@ -384,14 +385,15 @@ const App: React.FC<AppProps> = ({ layout, interactions, options, rect }) => {
 
   const embedContent = useMemo(
     () => (
-      <qlik-embed
+      <QlikEmbedAssistant
+        appearance={theme}
+        assistantId={assistantId}
+        hostConfig={hostConfig}
         ui={assistantUi}
         variant={assistantVariant}
-        assistant-id={assistantId}
-        appearance={theme}
       />
     ),
-    [assistantId, assistantUi, assistantVariant, theme]
+    [assistantId, assistantUi, assistantVariant, hostConfig, theme]
   );
 
   if (assistantId === '') {

@@ -6,7 +6,6 @@ import * as React from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import App from './components/App';
 import { Layout, UseOptions } from './types';
-import '@qlik/embed-web-components';
 
 const rootsByElement = new WeakMap<Element, Root>();
 
@@ -33,13 +32,14 @@ export default function supernova(env: any) {
 
         root.render(
           <App
+            hostConfig={hostConfig}
             interactions={interactions}
             layout={layout}
             options={options}
             rect={rect}
           />
         );
-      }, [element, interactions, layout, options, rect]);
+      }, [element, hostConfig, interactions, layout, options, rect]);
 
       useEffect(() => {
         return () => {
@@ -50,17 +50,6 @@ export default function supernova(env: any) {
           }
         };
       }, [element]);
-
-      useEffect(() => {
-        const script = document.createElement('script');
-        script.setAttribute('data-host', hostConfig.host);
-        script.setAttribute('data-cross-site-cookies', 'true');
-        document.head.appendChild(script);
-
-        return () => {
-          document.head.removeChild(script);
-        };
-      }, []);
     },
     ext: ext(),
   };

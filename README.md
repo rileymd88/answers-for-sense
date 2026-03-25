@@ -28,6 +28,10 @@ The table below lists the available class names and their respective description
 | `answers-for-sense-edit-overlay` | Overlay displayed in edit mode. |
 
 ## Changelog
+### v0.1.8
+- Fixed Share -> Embed preview failures caused by nested `qlik-embed` custom element registration
+- Switched the extension to mount the embed runtime directly, avoiding `qlik-embed` within `qlik-embed` conflicts
+
 ### v0.1.7
 - Bug fixes
 
